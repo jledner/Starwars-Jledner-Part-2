@@ -6,19 +6,17 @@ export const Home = () => {
   const [planetsArray, setPlanetsArray] = useState([]);
   const [charactersArray, setCharactersArray] = useState([]);
  
-
+  //I joined both fetches in one fetch template since they are very similar in how they work, we just need to pass a url and a setter method to use it for any endpoint 
   const getData = (url, setArray) => {
     fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText);
         }
-        // Read the response as json.
         return response.json();
-
+        //there was a variable called data that was being returned here, but normally we just return the jsonification because we want the next .then to wait on the result if it takes longer  
       })
       .then((responseAsJson) => {
-        // Do stuff with the JSONified response
         setArray(responseAsJson.results);
       })
       .catch((error) => {
@@ -27,6 +25,7 @@ export const Home = () => {
   };
 
   useEffect(() => {
+    //I get both characters and planets by passing the respective url and the setter method for the appropriate array 
     getData("https://swapi.dev/api/people/", setCharactersArray);
     getData("https://swapi.dev/api/planets/", setPlanetsArray);
   }, []);
