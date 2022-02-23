@@ -2,41 +2,40 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const PlanetsCard = (props) => {
+export const Card = ({data}) => {
   return (
     // <div className="card mb-3" style={{ maxwidth: "540px" }}>
     //   <div className="col-sm-3">
     <div className="col-sm-3 card">
       <img
-        src="https://upload.wikimedia.org/wikipedia/en/6/6d/Tatooine_%28fictional_desert_planet%29.jpg"
+        src={data.imgURL}
         className="card-img-top"
         alt="..."
       />
       <div className="card-body">
         <div className="card-text">
-          {/* Here are some of the planet's properties: */}
+          <h5>Here are some of the planet's properties:</h5>
           <ul>
-            <span>Planet: {props.planet.name}</span>
-            {/* <li>terrain: {props.planet.terrain}</li>
-            <li>gravity: {props.planet.gravity}</li> */}
+            <b>{data.prop1}: {data.value1}</b>
+            <li>{data.prop2}: {data.value2}</li>
+            <li>{data.prop3}: {data.value3}</li>
           </ul>
           <Link to={{
-                pathname: "/planetdetails/" + props.planet.name,
+                pathname: "/details/" + data.prop1,
                  state :{
-                    props,
+                    data,
                  },
                  }}>
                 <button>Click here to see details</button>
               </Link>
         </div>
       </div>
-      <link></link>
     </div>
     //   </div>
     // </div>
   );
 };
 
-PlanetsCard.propTypes = {
+Card.propTypes = {
   planet: PropTypes.object,
 };

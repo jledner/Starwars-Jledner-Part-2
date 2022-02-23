@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-import { PlanetsCard } from "../component/planetscard";
+import { Card } from "../component/card";
 import { CharactersCard } from "../component/characterscard";
-import { PlanetDetails } from "./planetdetails";
+import { Details } from "./details";
 
 export const Home = () => {
   const [planetsArray, setPlanetsArray] = useState([]);
@@ -21,9 +21,9 @@ export const Home = () => {
         return response.json();
         //there was a variable called data that was being returned here, but normally we just return the jsonification because we want the next .then to wait on the result if it takes longer
       })
-      .then((responseAsJson) => {
-        console.log(responseAsJson.results);
-        setArray(responseAsJson.results);
+      .then((data) => {
+        console.log(data.results);
+        setArray(data.results);
       })
       .catch((error) => {
         console.log("Looks like there was a problem: \n", error);
@@ -43,15 +43,35 @@ export const Home = () => {
       <div className="container">
         <div className="row">
           {planetsArray.map((item, index) => {
-            return <PlanetsCard key={index} planet={item} />;
+            return (
+            <span key={index} > 
+            <Card data={{
+              imgURL: 'https://upload.wikimedia.org/wikipedia/en/6/6d/Tatooine_%28fictional_desert_planet%29.jpg',
+              prop1: 'name',
+              prop2: 'terrain',
+              prop3: 'gravity',
+              value1: item.name,
+              value2: item.terrain,
+              value3: item.gravity,
+              }} /></span>);
           })}
         </div>
       </div>
       <h3>Characters</h3>
-      <div className="container flex-wrap">
+      <div className="container">
         <div className="row">
           {charactersArray.map((item, index) => {
-            return <CharactersCard key={index} character={item} />;
+            return (
+              <span key={index} > 
+              <Card data={{
+                imgURL: "https://api.time.com/wp-content/uploads/2015/12/star-wars-episode-iii-revenge-of-the-sith-obi-wan.jpg",
+                prop1: 'name',
+                prop2: 'gender',
+                prop3: 'height',
+                value1: item.name,
+                value2: item.gender,
+                value3: item.height,
+                }} /></span>);
           })}
         </div>
       </div>
