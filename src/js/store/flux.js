@@ -1,6 +1,11 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			characters:[],
+			planets:[],
+			favorites:[{
+				name: "one"
+			}],
 			demo: [
 				{
 					title: "FIRST",
@@ -19,10 +24,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+			getData: (url, param2) => {
+				
+				const store = getStore();
+				  fetch(url)
+					.then((response) => {
+					  console.log(response);
+					  if (!response.ok) {
+						throw Error(response.statusText);
+					  }
+			  
+					  return response.json();
+					})
+					.then((data) => {
+					  console.log(data.results);
+					  setStore({[param2] : data.results});
+					})
+					.catch((error) => {
+					  console.log("Looks like there was a problem: \n", error);
+					});
+				
 			},
 			changeColor: (index, color) => {
 				//get the store
@@ -37,7 +58,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			addFavorite: (fav) => {
+				//get the store
+				//we have to loop the entire demo array to look for the respective index
+				//and change its color
+				const newFavorites = getStore().favorites;
+				newFavorites.push(fav);
+				//reset the global store
+				setStore({ favorites: newFavorites });
 			}
+
 		}
 	};
 };

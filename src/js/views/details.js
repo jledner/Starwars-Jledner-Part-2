@@ -7,7 +7,7 @@ export const Details = (props) => {
   let data = props.location.state.data;
   return (
     <div
-      className="card mb-3 border border-success "
+    className="card bg-dark mb-3"
       style={{ maxWidth: "540px" }}
     >
       <div className="row g-0">
@@ -32,7 +32,7 @@ export const Details = (props) => {
 
           <Link to="/">
             <span
-              className="btn btn-primary btn-lg d-flex justify-content-center"
+              className="btn btn-light d-flex justify-content-center"
               href="#"
               role="button"
             >

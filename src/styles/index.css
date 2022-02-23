@@ -1,3 +1,12 @@
-/* 
-    General Styles
-*/
+body {
+    color: #94C595;
+    background: #191919;
+    color: #A1E8AF;
+}
+.cards {
+    list-style: none !important;
+    overflow-x: auto !important;
+}
+.characters{
+    padding: 20px;
+}

@@ -1,51 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { Card } from "../component/card";
 import { CharactersCard } from "../component/characterscard";
 import { Details } from "./details";
+import { Context } from "../store/appContext";
 
 export const Home = () => {
-  const [planetsArray, setPlanetsArray] = useState([]);
-  const [charactersArray, setCharactersArray] = useState([]);
-
-  //I joined both fetches in one fetch template since they are very similar in how they work, we just need to pass a url and a setter method to use it for any endpoint
-  const getData = (url, setArray) => {
-    fetch(url)
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        return response.json();
-        //there was a variable called data that was being returned here, but normally we just return the jsonification because we want the next .then to wait on the result if it takes longer
-      })
-      .then((data) => {
-        console.log(data.results);
-        setArray(data.results);
-      })
-      .catch((error) => {
-        console.log("Looks like there was a problem: \n", error);
-      });
-  };
-
-  useEffect(() => {
-    //I get both characters and planets by passing the respective url and the setter method for the appropriate array
-    getData("https://swapi.dev/api/people/", setCharactersArray);
-    getData("https://swapi.dev/api/planets/", setPlanetsArray);
-  }, []);
-
+  const { store, actions } = useContext(Context);
   return (
-    <div className="text-center mt-5">
+    <div className="items text-center mt-5">
       <h1>Star Wars</h1>
       <h3>Planets</h3>
-      <div className="container">
-        <div className="row">
-          {planetsArray.map((item, index) => {
+      <div className="container" style={{ width: "100%" }}>
+        <div className="cards characters-cards d-flex flex-nowrap p-0">
+          {store.planetsArray?store.planetsArray.map((item, index) => {
             return (
             <span key={index} > 
             <Card data={{
+              index: index,
               imgURL: 'https://upload.wikimedia.org/wikipedia/en/6/6d/Tatooine_%28fictional_desert_planet%29.jpg',
               prop1: 'name',
               prop2: 'terrain',
@@ -54,13 +27,13 @@ export const Home = () => {
               value2: item.terrain,
               value3: item.gravity,
               }} /></span>);
-          })}
+          }):"loading..."}
         </div>
       </div>
       <h3>Characters</h3>
       <div className="container">
-        <div className="row">
-          {charactersArray.map((item, index) => {
+        <div className="cards characters-cards d-flex flex-nowrap p-0">
+          {store.charactersArray?store.charactersArray.map((item, index) => {
             return (
               <span key={index} > 
               <Card data={{
@@ -72,7 +45,7 @@ export const Home = () => {
                 value2: item.gender,
                 value3: item.height,
                 }} /></span>);
-          })}
+          }):"loading..."}
         </div>
       </div>
     </div>
